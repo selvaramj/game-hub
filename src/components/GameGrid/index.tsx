@@ -1,32 +1,40 @@
 import { SimpleGrid, Text } from '@chakra-ui/react';
 import { lazy } from 'react';
+import { GameQuery } from '../../App';
 import useGames from '../../hooks/useGames';
+import { Genre } from '../../hooks/useGenre';
+import { Platform } from '../../hooks/usePlatforms';
 import GameCard from '../GameCard';
 import GameCardContainer from '../GameCardConatainer';
 import GameSkeletonCard from '../GameCardSkeleton';
 
-const GameGrid = () => {
-  const { games, error, loading } = useGames();
-  const lazyCard = [1, 2, 3, 4, 5, 6];
+interface Props {
+  gameQuery: GameQuery;
+}
 
-  console.log('The Games', games);
+const GameGrid = ({ gameQuery }: Props) => {
+  const { data, error, isLoading } = useGames(gameQuery);
+  const lazyCard = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
+  console.log('The Games', data);
   return (
     <>
       {error && <Text>{error}</Text>}
       <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
-        spacing={10}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+        spacing={3}
         padding="10px"
       >
-        {games.map((game) => (
-          <GameCardContainer>
-            <GameCard key={game.id} game={game} />
-          </GameCardContainer>
-        ))}
-        {loading &&
+        {!isLoading &&
+          data.map((game) => (
+            <GameCardContainer key={game.id}>
+              <GameCard game={game} />
+            </GameCardContainer>
+          ))}
+        {isLoading &&
           lazyCard.map((lazy) => (
-            <GameCardContainer>
-              <GameSkeletonCard key={lazy} />
+            <GameCardContainer key={lazy}>
+              <GameSkeletonCard />
             </GameCardContainer>
           ))}
       </SimpleGrid>
