@@ -1,21 +1,22 @@
 import { HStack, Image, Text } from '@chakra-ui/react';
 import logo from '../../assets/logo.webp';
-import React from 'react';
+import { Link } from 'react-router-dom';
 import ColorSwitchMode from '../ColorSwitchMode';
 import GameSearch from '../GameSearch';
 
-interface Props {
-  onSearchGames: (searchGame: string) => void;
-}
+const NavBar = () => {
+  console.log('NavBar Component');
 
-const NavBar = ({ onSearchGames }: Props) => {
   return (
     <HStack justifyContent="space-between" padding="10px">
-      <Image src={logo} boxSize="60px" />
-      <GameSearch onSearchGames={onSearchGames} />
+      <Link to="/">
+        <Image src={logo} boxSize="60px" objectFit={'cover'} />
+      </Link>
+      <GameSearch />
       <ColorSwitchMode />
     </HStack>
   );
 };
+// onSearchGames={onSearchGames}
 
 export default NavBar;

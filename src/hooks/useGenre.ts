@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import apiClient, { CanceledError } from '../services/api-client';
-import useData from './useData';
+import { useQuery } from '@tanstack/react-query';
+import genres from '../mock/genres';
+import genreService from '../services/genreService';
 
-export interface Genre {
-  id: number;
-  name: string;
-  image_background: string;
-}
-
-const useGenre = () => useData<Genre>('/genres');
+const useGenre = () => {
+  return useQuery({
+    queryKey: ['genres'],
+    queryFn: genreService.getAll,
+    staleTime: 24 * 60 * 60 * 1000, //24 hr
+    initialData: genres,
+  });
+};
 
 export default useGenre;
